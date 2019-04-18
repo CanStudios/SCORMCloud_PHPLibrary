@@ -28,55 +28,61 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
-require_once 'ServiceRequest.php';
-require_once 'CourseData.php';
-require_once 'Enums.php';
-
+namespace ScormCloud;
 
 /// <summary>
-/// Client-side proxy for the "rustici.course.*" Hosted SCORM Engine web
-/// service methods.  
+/// Data class to hold high-level Registration Summary
 /// </summary>
-class UploadToken{
-	
-	private $_server;
-    private $_tokenId;
-
-	/// <summary>
-    /// Purpose of this class is to map the return xml from the course listing
-    /// web service into an object.  This is the main constructor.
-    /// </summary>
-    /// <param name="courseDataElement"></param>
-    public function __construct($tokenData)
+class RegistrationSummary
     {
-		$xml = simplexml_load_string($tokenData);
-		if (false === $xml) {
-            //throw new ScormEngine_XmlParseException('Could not parse XML.', $courseDataElement);
+		private $_complete;
+        private $_success;
+        private $_totaltime;
+        private $_score;
+
+		/// <summary>
+        /// Inflate RegistrationSummary info object from passed in xml element
+        /// </summary>
+        /// <param name="launchInfoElem"></param>
+        public function __construct($xml)
+        {
+			$this->_complete = $xml->complete;
+	        $this->_success = $xml->success;
+            $this->_totalTime = $xml->totaltime;
+            $this->_score = $xml->score;
         }
-		if(isset($xml))
-		{
-	        $this->_server = $xml->token->server;
-	        $this->_tokenId = $xml->token->id;
-		}
-    }
-	
-	/// <summary>
-    /// Gets the Server
-    /// </summary>
-    public function getServer()
-    {
-        return $this->_server;
-    }
 
-    /// <summary>
-    /// Gets the TokenId
-    /// </summary>
-    public function getTokenId()
-    {
-        return $this->_tokenId;
-    }
-	
+
+		/// <summary>
+        /// The completion status of the Registration Summary
+        /// </summary>
+        public function getComplete()
+        {
+            return $this->_complete;
+        }
+
+        /// <summary>
+        /// The success status of the Registration Summary
+        /// </summary>
+        public function getSuccess()
+        {
+			return $this->_success;
+        }
+
+        /// <summary>
+        /// The total time of the Registration Summary
+        /// </summary>
+        public function getTotalTime()
+        {
+            return $this->_totalTime;
+        }
+
+        /// <summary>
+        /// The score of the Registration Summary
+        /// </summary>
+        public function getScore()
+        {
+           return $this->_score;
+        }
+
 }
-
-?>

@@ -1,5 +1,7 @@
 <?php
 
+namespace ScormCloud;
+
 class ScormEngineUtilities
 {
 	public static function getCanonicalOriginString($company, $application, $version)

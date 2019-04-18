@@ -28,9 +28,15 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-class DispatchDestination {
+namespace ScormCloud;
+
+class Dispatch {
     private $_id;
-    private $_name;
+    private $_destinationId;
+    private $_appId;
+    private $_courseAppId;
+    private $_courseId;
+    private $_enabled;
     private $_notes;
     private $_createdBy;
     private $_createDate;
@@ -42,7 +48,11 @@ class DispatchDestination {
 		if(isset($xmlElem))
 		{
 	        $this->_id = (string) $xmlElem->id;
-	        $this->_name = (string) $xmlElem->name;
+	        $this->_destinationId = (string) $xmlElem->destinationId;
+	        $this->_appId = (string) $xmlElem->appId;
+	        $this->_courseAppId = (string) $xmlElem->courseAppId;
+	        $this->_courseId = (string) $xmlElem->courseId;
+	        $this->_enabled = (string)$xmlElem->enabled;
 	        $this->_notes = (string) $xmlElem->notes;
 	        $this->_createdBy = (string) $xmlElem->createdBy;
 	        $this->_createDate = (string) $xmlElem->createDate;
@@ -54,7 +64,7 @@ class DispatchDestination {
 		}
     }
     
-    public static function parseDestinationList($xmlString)
+    public static function parseDispatchList($xmlString)
     {
         #echo $xmlString;
         
@@ -65,9 +75,9 @@ class DispatchDestination {
         
 		$allResults = array();
 
-        foreach ($xml->dispatchDestinations->dispatchDestination as $dispatchElem)
+        foreach ($xml->dispatches->dispatch as $dispatchElem)
         {
-            $allResults[] = new DispatchDestination($dispatchElem);
+            $allResults[] = new Dispatch($dispatchElem);
         }
 
         return $allResults;
@@ -78,9 +88,29 @@ class DispatchDestination {
         return $this->_id;
     }
 
-    public function getName()
+    public function getDestinationId()
     {
-        return $this->_name;
+        return $this->_destinationId;
+    }
+
+    public function getAppId()
+    {
+        return $this->_appId;
+    }
+
+    public function getCourseAppId()
+    {
+        return $this->_courseAppId;
+    }
+
+    public function getCourseId()
+    {
+        return $this->_courseId;
+    }
+
+    public function getEnabled()
+    {
+        return $this->_enabled;
     }
 
     public function getNotes()
@@ -109,4 +139,3 @@ class DispatchDestination {
     }
 
 }
-?>

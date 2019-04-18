@@ -37,22 +37,7 @@
  * @package RusticiSoftware.ScormEngine.Cloud
  */
 
-require_once 'Configuration.php';
-require_once 'ServiceRequest.php';
-require_once 'CourseService.php';
-require_once 'InvitationService.php';
-require_once 'RegistrationService.php';
-require_once 'UploadService.php';
-require_once 'ReportingService.php';
-require_once 'TaggingService.php';
-require_once 'AccountService.php';
-require_once 'DebugService.php';
-require_once 'DispatchService.php';
-require_once 'LrsAccountService.php';
-require_once 'ApplicationService.php';
-
-require_once 'DebugLogger.php';
-
+namespace ScormCloud;
 
 class ScormEngineService{
 
@@ -270,4 +255,3 @@ class ScormEngineService{
         return new ServiceRequest($this->_configuration);
     }
 }
-?>

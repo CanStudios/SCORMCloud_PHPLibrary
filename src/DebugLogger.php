@@ -29,32 +29,26 @@
  */
 
 
-require_once 'ServiceRequest.php';
-require_once 'DebugLogger.php';
+/**
+ * Write To Log File
+ *
+ * @param string $message test to write to log
+ * 
+ * @return bool success
+ */
 
-/// <summary>
-/// Client-side proxy for the "rustici.course.*" Hosted SCORM Engine web
-/// service methods.  
-/// </summary>
-class AccountService{
-	
-	private $_configuration = null;
-	
-	public function __construct($configuration) {
-		$this->_configuration = $configuration;
-		//echo $this->_configuration->getAppId();
-	}
 
-	public function GetAccountInfo(){
-		$request = new ServiceRequest($this->_configuration);
-		$params = array('appid' => $this->_configuration->getAppId());
-		$request->setMethodParams($params);
-       	$response = $request->CallService("rustici.reporting.getAccountInfo");
-        //error_log($response);
-       	return $response;
-	}
-    
-    
+function write_log($message) {
+	$debug_enabled = false;
+	
+    if ($debug_enabled){
+	$fh = fopen('SCORMCloud_debug.log', 'a');
+	
+	fwrite($fh, '['.date("D dS M,Y h:i a").'] - '.$message."\n");
+	
+	fclose($fh);
+    }
+
+	return true;
+
 }
-
-?>

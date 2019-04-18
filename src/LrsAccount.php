@@ -28,10 +28,11 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace ScormCloud;
 
- /// <summary>
-    /// Data class to hold high-level Registration Data
-    /// </summary>
+/// <summary>
+/// Data class to hold high-level Registration Data
+/// </summary>
 class LrsAccount
     {
         private $_accountKey;
@@ -148,5 +149,3 @@ class LrsAccount
         }
  
 }
-
-?>

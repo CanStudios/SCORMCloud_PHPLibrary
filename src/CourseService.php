@@ -28,14 +28,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-require_once 'ServiceRequest.php';
-require_once 'CourseData.php';
-require_once 'Enums.php';
-require_once 'UploadService.php';
-require_once 'ImportResult.php';
-require_once 'DebugLogger.php';
-require_once 'Token.php';
-require_once 'AsyncImportResult.php';
+namespace ScormCloud;
 
 /// <summary>
 /// Client-side proxy for the "rustici.course.*" Hosted SCORM Engine web
@@ -178,7 +171,7 @@ class CourseService{
      /// Check the existence of a course with the given courseId
      /// configured appId.
      /// </summary>
-  	/// <param name="courseId">courseId of the course to check for</param>
+  	 /// <param name="courseId">courseId of the course to check for</param>
      /// <returns>boolean value</returns>
     public function Exists($courseId) {
         $request = new ServiceRequest($this->_configuration);
@@ -210,7 +203,8 @@ class CourseService{
 		$CourseDataObject = new CourseData(null);
         return $CourseDataObject->ConvertToCourseDataList($response);
     }
-   /// <summary>
+
+    /// <summary>
     /// Delete the specified course
     /// </summary>
     /// <param name="courseId">Unique Identifier for the course</param>
@@ -441,5 +435,3 @@ class CourseService{
     	return $response;
     }
  }
-
-?>

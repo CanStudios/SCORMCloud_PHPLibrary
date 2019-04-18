@@ -28,13 +28,11 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-class Dispatch {
+namespace ScormCloud;
+
+class DispatchDestination {
     private $_id;
-    private $_destinationId;
-    private $_appId;
-    private $_courseAppId;
-    private $_courseId;
-    private $_enabled;
+    private $_name;
     private $_notes;
     private $_createdBy;
     private $_createDate;
@@ -46,11 +44,7 @@ class Dispatch {
 		if(isset($xmlElem))
 		{
 	        $this->_id = (string) $xmlElem->id;
-	        $this->_destinationId = (string) $xmlElem->destinationId;
-	        $this->_appId = (string) $xmlElem->appId;
-	        $this->_courseAppId = (string) $xmlElem->courseAppId;
-	        $this->_courseId = (string) $xmlElem->courseId;
-	        $this->_enabled = (string)$xmlElem->enabled;
+	        $this->_name = (string) $xmlElem->name;
 	        $this->_notes = (string) $xmlElem->notes;
 	        $this->_createdBy = (string) $xmlElem->createdBy;
 	        $this->_createDate = (string) $xmlElem->createDate;
@@ -62,7 +56,7 @@ class Dispatch {
 		}
     }
     
-    public static function parseDispatchList($xmlString)
+    public static function parseDestinationList($xmlString)
     {
         #echo $xmlString;
         
@@ -73,9 +67,9 @@ class Dispatch {
         
 		$allResults = array();
 
-        foreach ($xml->dispatches->dispatch as $dispatchElem)
+        foreach ($xml->dispatchDestinations->dispatchDestination as $dispatchElem)
         {
-            $allResults[] = new Dispatch($dispatchElem);
+            $allResults[] = new DispatchDestination($dispatchElem);
         }
 
         return $allResults;
@@ -86,29 +80,9 @@ class Dispatch {
         return $this->_id;
     }
 
-    public function getDestinationId()
+    public function getName()
     {
-        return $this->_destinationId;
-    }
-
-    public function getAppId()
-    {
-        return $this->_appId;
-    }
-
-    public function getCourseAppId()
-    {
-        return $this->_courseAppId;
-    }
-
-    public function getCourseId()
-    {
-        return $this->_courseId;
-    }
-
-    public function getEnabled()
-    {
-        return $this->_enabled;
+        return $this->_name;
     }
 
     public function getNotes()
@@ -137,4 +111,3 @@ class Dispatch {
     }
 
 }
-?>

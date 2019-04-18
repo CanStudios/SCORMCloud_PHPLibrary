@@ -28,30 +28,52 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace ScormCloud;
 
-/**
- * Write To Log File
- *
- * @param string $message test to write to log
- * 
- * @return bool success
- */
-
-
-function write_log($message) {
-	$debug_enabled = false;
+/// <summary>
+/// Client-side proxy for the "rustici.debug.*" Hosted SCORM Engine web
+/// service methods.  
+/// </summary>
+class DebugService{
 	
-    if ($debug_enabled){
-	$fh = fopen('SCORMCloud_debug.log', 'a');
+	private $_configuration = null;
 	
-	fwrite($fh, '['.date("D dS M,Y h:i a").'] - '.$message."\n");
+	public function __construct($configuration) {
+		$this->_configuration = $configuration;
+		//echo $this->_configuration->getAppId();
+	}
 	
-	fclose($fh);
+	public function CloudPing($throw = false)
+    {
+		write_log('rustici.debug.ping being called...');
+        $request = new ServiceRequest($this->_configuration);
+        try {
+            $response = $request->CallService("rustici.debug.ping");
+            write_log('rustici.debug.ping returned : '.$response);
+        } catch (Exception $e) {
+            write_log('rustici.debug.ping threw Exception: '.$e->getMessage());
+            return false;
+        }
+        
+		$xml = simplexml_load_string($response);
+		return ($xml['stat'] == 'ok');
     }
 
-	return true;
+	public function CloudAuthPing($throw = false)
+    {
+		write_log('rustici.debug.authPing being called...');
+        $request = new ServiceRequest($this->_configuration);
+        try {
+            $response = $request->CallService("rustici.debug.authPing");
+            write_log('rustici.debug.authPing returned : '.$response);
+        } catch (Exception $e) {
+            write_log('rustici.debug.authPing threw Exception: '.$e->getMessage());
+            return false;
+        }
+        
+		$xml = simplexml_load_string($response);
+		return ($xml['stat'] == 'ok');
+    }
 
+    
 }
-
-
-?>

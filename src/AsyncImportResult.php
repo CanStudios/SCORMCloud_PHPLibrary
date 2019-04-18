@@ -1,10 +1,10 @@
 <?php
 
 /* Software License Agreement (BSD License)
- * 
+ *
  * Copyright (c) 2010-2011, Rustici Software, LLC
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *     * Redistributions of source code must retain the above copyright
@@ -15,7 +15,7 @@
  *     * Neither the name of the <organization> nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -28,62 +28,61 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace ScormCloud;
 
- /// <summary>
-    /// Data class to hold high-level Registration Summary
-    /// </summary>
-class RegistrationSummary
-    {
-		private $_complete;
-        private $_success;
-        private $_totaltime;
-        private $_score;
+class AsyncImportResult {
+    private $_status = "";
+    private $_message = "";
+    private $_progress = 0;
+    private $_xml;
 
-		/// <summary>
-        /// Inflate RegistrationSummary info object from passed in xml element
-        /// </summary>
-        /// <param name="launchInfoElem"></param>
-        public function __construct($xml)
-        {
-			$this->_complete = $xml->complete;
-	        $this->_success = $xml->success;
-            $this->_totalTime = $xml->totaltime;
-            $this->_score = $xml->score;
+    private $_importResults = array();
+
+    function __construct($xmlDoc) {
+        $xml = simplexml_load_string($xmlDoc);
+
+        $this->_status = $xml->status;
+
+        if (isset($xml->message)) {
+            $this->_message = $xml->message;
         }
 
-
-		/// <summary>
-        /// The completion status of the Registration Summary
-        /// </summary>
-        public function getComplete()
-        {
-            return $this->_complete;
+        if (isset($xml->progress)) {
+            $this->_progress = $xml->progress;
         }
 
-        /// <summary>
-        /// The success status of the Registration Summary
-        /// </summary>
-        public function getSuccess()
-        {
-			return $this->_success;
+        if (isset($xml->importresult)) {
+            $importResults = $xml->importresult;
+            foreach ($importResults as $result) {
+                $this->_importResults[] = new ImportResult($result);
+            }
         }
 
-        /// <summary>
-        /// The total time of the Registration Summary
-        /// </summary>
-        public function getTotalTime()
-        {
-            return $this->_totalTime;
-        }
+        $this->_xml = $xml;
+    }
 
-        /// <summary>
-        /// The score of the Registration Summary
-        /// </summary>
-        public function getScore()
-        {
-           return $this->_score;
-        }
+    // Can be created/running/finished/error
+    public function getStatus() {
+        return $this->_status;
+    }
 
+    // A user-readable message describing current import step
+    public function getMessage() {
+        return $this->_message;
+    }
+
+    // (Optional) a list of import results
+    public function getImportResults() {
+        return $this->_importResults;
+    }
+
+    // (Optional) The progress of the import 0 - 100
+    public function getProgress() {
+        return $this->_progress;
+    }
+
+    // Get the xml doc for the response
+    public function getXml() {
+        return $this->_xml;
+    }
 }
-
-?>

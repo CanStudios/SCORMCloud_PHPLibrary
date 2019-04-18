@@ -28,9 +28,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
-require_once 'ServiceRequest.php';
-require_once 'DebugLogger.php';
+namespace ScormCloud;
 
 /// <summary>
 /// Client-side proxy for the "rustici.course.*" Hosted SCORM Engine web
@@ -500,5 +498,3 @@ function boolString($bValue = false) {
 // returns string
   return ($bValue ? 'true' : 'false');
 }
-
-?>

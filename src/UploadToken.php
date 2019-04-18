@@ -28,56 +28,49 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
-require_once 'ServiceRequest.php';
-require_once 'DebugLogger.php';
+namespace ScormCloud;
 
 /// <summary>
-/// Client-side proxy for the "rustici.debug.*" Hosted SCORM Engine web
+/// Client-side proxy for the "rustici.course.*" Hosted SCORM Engine web
 /// service methods.  
 /// </summary>
-class DebugService{
+class UploadToken{
 	
-	private $_configuration = null;
-	
-	public function __construct($configuration) {
-		$this->_configuration = $configuration;
-		//echo $this->_configuration->getAppId();
-	}
-	
-	public function CloudPing($throw = false)
+	private $_server;
+    private $_tokenId;
+
+	/// <summary>
+    /// Purpose of this class is to map the return xml from the course listing
+    /// web service into an object.  This is the main constructor.
+    /// </summary>
+    /// <param name="courseDataElement"></param>
+    public function __construct($tokenData)
     {
-		write_log('rustici.debug.ping being called...');
-        $request = new ServiceRequest($this->_configuration);
-        try {
-            $response = $request->CallService("rustici.debug.ping");
-            write_log('rustici.debug.ping returned : '.$response);
-        } catch (Exception $e) {
-            write_log('rustici.debug.ping threw Exception: '.$e->getMessage());
-            return false;
+		$xml = simplexml_load_string($tokenData);
+		if (false === $xml) {
+            //throw new ScormEngine_XmlParseException('Could not parse XML.', $courseDataElement);
         }
-        
-		$xml = simplexml_load_string($response);
-		return ($xml['stat'] == 'ok');
+		if(isset($xml))
+		{
+	        $this->_server = $xml->token->server;
+	        $this->_tokenId = $xml->token->id;
+		}
+    }
+	
+	/// <summary>
+    /// Gets the Server
+    /// </summary>
+    public function getServer()
+    {
+        return $this->_server;
     }
 
-	public function CloudAuthPing($throw = false)
+    /// <summary>
+    /// Gets the TokenId
+    /// </summary>
+    public function getTokenId()
     {
-		write_log('rustici.debug.authPing being called...');
-        $request = new ServiceRequest($this->_configuration);
-        try {
-            $response = $request->CallService("rustici.debug.authPing");
-            write_log('rustici.debug.authPing returned : '.$response);
-        } catch (Exception $e) {
-            write_log('rustici.debug.authPing threw Exception: '.$e->getMessage());
-            return false;
-        }
-        
-		$xml = simplexml_load_string($response);
-		return ($xml['stat'] == 'ok');
+        return $this->_tokenId;
     }
-
-    
+	
 }
-
-?>

@@ -28,6 +28,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace ScormCloud;
 
 class Configuration{
 	
@@ -140,4 +141,3 @@ class Configuration{
         return $this->_proxy;
     }
 }
-?>

@@ -28,17 +28,12 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace ScormCloud;
 
-require_once 'RegistrationData.php';
-require_once 'Enums.php';
-require_once 'LaunchInfo.php';
-require_once 'RegistrationSummary.php';
-require_once 'DebugLogger.php';
-
-	/// <summary>
-   	/// Client-side proxy for the "rustici.registration.*" Hosted SCORM Engine web
-   	/// service methods.  
-   	/// </summary>
+/// <summary>
+/// Client-side proxy for the "rustici.registration.*" Hosted SCORM Engine web
+/// service methods.
+/// </summary>
 class RegistrationService{
 	
 	private $_configuration = null;
