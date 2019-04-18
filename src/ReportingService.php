@@ -498,5 +498,3 @@ function boolString($bValue = false) {
 // returns string
   return ($bValue ? 'true' : 'false');
 }
-
-?>

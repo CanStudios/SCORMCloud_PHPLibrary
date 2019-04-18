@@ -110,5 +110,3 @@ class TaggingService{
         return $response;
     }
 }
-    
-?>

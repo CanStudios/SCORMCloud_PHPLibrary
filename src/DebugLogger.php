@@ -52,6 +52,3 @@ function write_log($message) {
 	return true;
 
 }
-
-
-?>

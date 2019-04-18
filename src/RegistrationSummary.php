@@ -30,9 +30,9 @@
 
 namespace ScormCloud;
 
- /// <summary>
-    /// Data class to hold high-level Registration Summary
-    /// </summary>
+/// <summary>
+/// Data class to hold high-level Registration Summary
+/// </summary>
 class RegistrationSummary
     {
 		private $_complete;
@@ -86,5 +86,3 @@ class RegistrationSummary
         }
 
 }
-
-?>

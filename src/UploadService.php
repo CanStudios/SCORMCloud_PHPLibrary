@@ -115,5 +115,3 @@ class UploadService{
 		return $this->GetUploadUrl($importRedirectUrl);
 	}
 }
-
-?>

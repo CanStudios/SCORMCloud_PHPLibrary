@@ -30,10 +30,10 @@
 
 namespace ScormCloud;
 
-	/// <summary>
-   	/// Client-side proxy for the "rustici.registration.*" Hosted SCORM Engine web
-   	/// service methods.  
-   	/// </summary>
+/// <summary>
+/// Client-side proxy for the "rustici.registration.*" Hosted SCORM Engine web
+/// service methods.
+/// </summary>
 class RegistrationService{
 	
 	private $_configuration = null;

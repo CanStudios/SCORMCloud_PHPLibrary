@@ -86,5 +86,3 @@ class AsyncImportResult {
         return $this->_xml;
     }
 }
-
-?>

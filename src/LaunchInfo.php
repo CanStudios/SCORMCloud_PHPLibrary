@@ -170,5 +170,3 @@ class LaunchInfo
             return $allResults;
         }
 }
-
-?>

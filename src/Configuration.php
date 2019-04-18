@@ -141,4 +141,3 @@ class Configuration{
         return $this->_proxy;
     }
 }
-?>

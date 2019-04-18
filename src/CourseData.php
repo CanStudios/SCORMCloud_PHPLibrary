@@ -112,5 +112,3 @@ class CourseData{
         return $this->_title;
     }
 }
-
-?>
