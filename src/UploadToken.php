@@ -1,10 +1,10 @@
 <?php
 
 /* Software License Agreement (BSD License)
- *
+ * 
  * Copyright (c) 2010-2011, Rustici Software, LLC
  * All rights reserved.
- *
+ * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *     * Redistributions of source code must retain the above copyright
@@ -15,7 +15,7 @@
  *     * Neither the name of the <organization> nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
- *
+ * 
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -28,62 +28,51 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace ScormCloud;
 
-class AsyncImportResult {
-    private $_status = "";
-    private $_message = "";
-    private $_progress = 0;
-    private $_xml;
+/// <summary>
+/// Client-side proxy for the "rustici.course.*" Hosted SCORM Engine web
+/// service methods.  
+/// </summary>
+class UploadToken{
+	
+	private $_server;
+    private $_tokenId;
 
-    private $_importResults = array();
-
-    function __construct($xmlDoc) {
-        $xml = simplexml_load_string($xmlDoc);
-
-        $this->_status = $xml->status;
-
-        if (isset($xml->message)) {
-            $this->_message = $xml->message;
+	/// <summary>
+    /// Purpose of this class is to map the return xml from the course listing
+    /// web service into an object.  This is the main constructor.
+    /// </summary>
+    /// <param name="courseDataElement"></param>
+    public function __construct($tokenData)
+    {
+		$xml = simplexml_load_string($tokenData);
+		if (false === $xml) {
+            //throw new ScormEngine_XmlParseException('Could not parse XML.', $courseDataElement);
         }
-
-        if (isset($xml->progress)) {
-            $this->_progress = $xml->progress;
-        }
-
-        if (isset($xml->importresult)) {
-            $importResults = $xml->importresult;
-            foreach ($importResults as $result) {
-                $this->_importResults[] = new ImportResult($result);
-            }
-        }
-
-        $this->_xml = $xml;
+		if(isset($xml))
+		{
+	        $this->_server = $xml->token->server;
+	        $this->_tokenId = $xml->token->id;
+		}
+    }
+	
+	/// <summary>
+    /// Gets the Server
+    /// </summary>
+    public function getServer()
+    {
+        return $this->_server;
     }
 
-    // Can be created/running/finished/error
-    public function getStatus() {
-        return $this->_status;
+    /// <summary>
+    /// Gets the TokenId
+    /// </summary>
+    public function getTokenId()
+    {
+        return $this->_tokenId;
     }
-
-    // A user-readable message describing current import step
-    public function getMessage() {
-        return $this->_message;
-    }
-
-    // (Optional) a list of import results
-    public function getImportResults() {
-        return $this->_importResults;
-    }
-
-    // (Optional) The progress of the import 0 - 100
-    public function getProgress() {
-        return $this->_progress;
-    }
-
-    // Get the xml doc for the response
-    public function getXml() {
-        return $this->_xml;
-    }
+	
 }
 
 ?>

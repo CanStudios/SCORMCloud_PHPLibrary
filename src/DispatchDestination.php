@@ -28,55 +28,87 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace ScormCloud;
 
-require_once 'ServiceRequest.php';
-require_once 'CourseData.php';
-require_once 'Enums.php';
+class DispatchDestination {
+    private $_id;
+    private $_name;
+    private $_notes;
+    private $_createdBy;
+    private $_createDate;
+    private $_updateDate;
+    private $_tags;
 
-
-/// <summary>
-/// Client-side proxy for the "rustici.course.*" Hosted SCORM Engine web
-/// service methods.  
-/// </summary>
-class UploadToken{
-	
-	private $_server;
-    private $_tokenId;
-
-	/// <summary>
-    /// Purpose of this class is to map the return xml from the course listing
-    /// web service into an object.  This is the main constructor.
-    /// </summary>
-    /// <param name="courseDataElement"></param>
-    public function __construct($tokenData)
+    public function __construct($xmlElem)
     {
-		$xml = simplexml_load_string($tokenData);
+		if(isset($xmlElem))
+		{
+	        $this->_id = (string) $xmlElem->id;
+	        $this->_name = (string) $xmlElem->name;
+	        $this->_notes = (string) $xmlElem->notes;
+	        $this->_createdBy = (string) $xmlElem->createdBy;
+	        $this->_createDate = (string) $xmlElem->createDate;
+	        $this->_updateDate = (string) $xmlElem->updateDate;
+            $this->_tags = array();
+            foreach ($xmlElem->tags->tag as $tag){
+	            $this->_tags[] = (string)$tag;
+            }
+		}
+    }
+    
+    public static function parseDestinationList($xmlString)
+    {
+        #echo $xmlString;
+        
+		$xml = simplexml_load_string($xmlString);
 		if (false === $xml) {
             //throw new ScormEngine_XmlParseException('Could not parse XML.', $courseDataElement);
         }
-		if(isset($xml))
-		{
-	        $this->_server = $xml->token->server;
-	        $this->_tokenId = $xml->token->id;
-		}
-    }
-	
-	/// <summary>
-    /// Gets the Server
-    /// </summary>
-    public function getServer()
-    {
-        return $this->_server;
+        
+		$allResults = array();
+
+        foreach ($xml->dispatchDestinations->dispatchDestination as $dispatchElem)
+        {
+            $allResults[] = new DispatchDestination($dispatchElem);
+        }
+
+        return $allResults;
     }
 
-    /// <summary>
-    /// Gets the TokenId
-    /// </summary>
-    public function getTokenId()
+    public function getId()
     {
-        return $this->_tokenId;
+        return $this->_id;
     }
-	
+
+    public function getName()
+    {
+        return $this->_name;
+    }
+
+    public function getNotes()
+    {
+        return $this->_notes;
+    }
+
+    public function getCreatedBy()
+    {
+        return $this->_createdBy;
+    }
+
+    public function getCreateDate()
+    {
+        return $this->_createDate;
+    }
+
+    public function getUpdateDate()
+    {
+        return $this->_updateDate;
+    }
+
+    public function getTags()
+    {
+        return $this->_tags;
+    }
+
 }
-
 ?>

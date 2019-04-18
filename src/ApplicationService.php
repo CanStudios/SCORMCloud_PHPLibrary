@@ -28,10 +28,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
-require_once 'Enums.php';
-require_once 'LaunchInfo.php';
-require_once 'DebugLogger.php';
+namespace ScormCloud;
 
 /// <summary>
 /// Client-side proxy for the "rustici.Application.*" Hosted SCORM Engine web

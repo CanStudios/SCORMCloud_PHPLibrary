@@ -2,7 +2,7 @@
 
 /* Software License Agreement (BSD License)
  * 
- * Copyright (c) 2010-2014, Rustici Software, LLC
+ * Copyright (c) 2010-2011, Rustici Software, LLC
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -28,82 +28,63 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace ScormCloud;
 
  /// <summary>
-    /// Data class to hold high-level Application Data
+    /// Data class to hold high-level Registration Summary
     /// </summary>
-class ApplicationData
+class RegistrationSummary
     {
-        private $_appId;
-        private $_createDate;
-        private $_name;
-        private $_data;
+		private $_complete;
+        private $_success;
+        private $_totaltime;
+        private $_score;
 
-        /// <summary>
-        /// Constructor which takes an XML node as returned by the web service.
+		/// <summary>
+        /// Inflate RegistrationSummary info object from passed in xml element
         /// </summary>
-        /// <param name="xml"></param>
+        /// <param name="launchInfoElem"></param>
         public function __construct($xml)
         {
-            $this->_appId = $xml->appId;
-            $this->_createDate = $xml->createDate;
-            $this->_name = $xml->name;
-			$this->_data = $xml;
+			$this->_complete = $xml->complete;
+	        $this->_success = $xml->success;
+            $this->_totalTime = $xml->totaltime;
+            $this->_score = $xml->score;
+        }
+
+
+		/// <summary>
+        /// The completion status of the Registration Summary
+        /// </summary>
+        public function getComplete()
+        {
+            return $this->_complete;
         }
 
         /// <summary>
-        /// Helper method which takes the full XmlDocument as returned from the Application listing
-        /// web service and returns a List of ApplicationData objects.
+        /// The success status of the Registration Summary
         /// </summary>
-        /// <param name="xmlDoc"></param>
-        /// <returns></returns>
-        public static function ConvertToApplicationDataList($xmlDoc)
+        public function getSuccess()
         {
-			$allResults = array();
-			if($xml = simplexml_load_string($xmlDoc))
-			{
-		            foreach ($xml->applicationlist->application as $Application)
-		            {
-		                $allResults[] = new ApplicationData($Application);
-		            }
-			}else{
-				echo 'error loading $xmlDoc';
-			}
-		
-
-            return $allResults;
+			return $this->_success;
         }
 
         /// <summary>
-        /// Unique Identifier for this Application
+        /// The total time of the Registration Summary
         /// </summary>
-        public function getAppId()
+        public function getTotalTime()
         {
-            return (string) $this->_appId;
-        }
-
-
-        /// <summary>
-        /// Create date for this Application
-        /// </summary>
-        public function getCreateDate()
-        {
-            return $this->_createDate;
+            return $this->_totalTime;
         }
 
         /// <summary>
-        /// Name for this Application
+        /// The score of the Registration Summary
         /// </summary>
-        public function getName()
+        public function getScore()
         {
-            return $this->_name;
+           return $this->_score;
         }
 
-        public function getData()
-        {
-            return $this->_data;
-        }
- 
 }
 
 ?>

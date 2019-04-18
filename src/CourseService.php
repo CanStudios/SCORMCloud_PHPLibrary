@@ -28,14 +28,16 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-require_once 'ServiceRequest.php';
+namespace ScormCloud;
+
+/*require_once 'ServiceRequest.php';
 require_once 'CourseData.php';
 require_once 'Enums.php';
 require_once 'UploadService.php';
 require_once 'ImportResult.php';
 require_once 'DebugLogger.php';
 require_once 'Token.php';
-require_once 'AsyncImportResult.php';
+require_once 'AsyncImportResult.php';*/
 
 /// <summary>
 /// Client-side proxy for the "rustici.course.*" Hosted SCORM Engine web

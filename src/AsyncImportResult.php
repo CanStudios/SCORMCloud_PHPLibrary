@@ -28,36 +28,63 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+namespace ScormCloud;
 
-/// <summary>
-/// Client-side token class for the tokens of the form <token><id>...</id></token>
-/// service methods.
-/// </summary>
-class Token {
+class AsyncImportResult {
+    private $_status = "";
+    private $_message = "";
+    private $_progress = 0;
+    private $_xml;
 
-    private $_tokenId;
+    private $_importResults = array();
 
-	/// <summary>
-    /// Maps <token><id>...</id></token> to a simple object
-    /// </summary>
-    /// <param name="courseDataElement"></param>
-    public function __construct($tokenData)
-    {
-		$xml = simplexml_load_string($tokenData);
-		if(isset($xml))
-		{
-	        $this->_tokenId = $xml->token->id;
-		}
+    function __construct($xmlDoc) {
+        $xml = simplexml_load_string($xmlDoc);
+
+        $this->_status = $xml->status;
+
+        if (isset($xml->message)) {
+            $this->_message = $xml->message;
+        }
+
+        if (isset($xml->progress)) {
+            $this->_progress = $xml->progress;
+        }
+
+        if (isset($xml->importresult)) {
+            $importResults = $xml->importresult;
+            foreach ($importResults as $result) {
+                $this->_importResults[] = new ImportResult($result);
+            }
+        }
+
+        $this->_xml = $xml;
     }
 
-    /// <summary>
-    /// Gets the TokenId
-    /// </summary>
-    public function getTokenId()
-    {
-        return $this->_tokenId;
+    // Can be created/running/finished/error
+    public function getStatus() {
+        return $this->_status;
     }
 
+    // A user-readable message describing current import step
+    public function getMessage() {
+        return $this->_message;
+    }
+
+    // (Optional) a list of import results
+    public function getImportResults() {
+        return $this->_importResults;
+    }
+
+    // (Optional) The progress of the import 0 - 100
+    public function getProgress() {
+        return $this->_progress;
+    }
+
+    // Get the xml doc for the response
+    public function getXml() {
+        return $this->_xml;
+    }
 }
 
 ?>
