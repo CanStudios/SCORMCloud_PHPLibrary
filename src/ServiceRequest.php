@@ -180,7 +180,7 @@ class ServiceRequest{
 					$errmsg = "Invalid XML Response from web service call, expected <rsp> tag, instead received: ".$xmlString;
 				}
 				error_log($errmsg);
-				throw new Exception($errmsg);
+				throw new \Exception($errmsg);
 			}
 
             return $xmlString;
